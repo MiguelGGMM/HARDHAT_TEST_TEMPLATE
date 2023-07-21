@@ -68,10 +68,10 @@ jobs:
         run: pnpm run compile 
 
       - name: Run linter checks        
-        run: pnpm run linter
+        run: pnpm run lint
 
       - name: Run solidity linter checks        
-        run: pnpm run linterSOL
+        run: pnpm run lintSOL
 
       - name: Run prettier checks        
         run: pnpm run prettier
