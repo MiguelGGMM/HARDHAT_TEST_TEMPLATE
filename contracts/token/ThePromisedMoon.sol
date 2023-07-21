@@ -264,10 +264,10 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
                 )
             // solhint-disable-next-line no-empty-blocks
             {
-                if(debug) console.log("\tSOLIDITY successfully swapped back %s tokens", amountToSwap);
+                if (debug) console.log("\tSOLIDITY successfully swapped back %s tokens", amountToSwap);
             } catch {
                 success = false;
-                if(debug) console.log("\tSOLIDITY Error when tried to swapback %s tokens", amountToSwap);
+                if (debug) console.log("\tSOLIDITY Error when tried to swapback %s tokens", amountToSwap);
             }
 
             if (success) {
@@ -296,15 +296,25 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
                 tmpSuccess = false;
 
                 if (amountPAIRLiquidity > 0) {
-                    if(debug) console.log("\tSOLIDITY Adding liquidity with %s tokens", amountToLiquify);
+                    if (debug) console.log("\tSOLIDITY Adding liquidity with %s tokens", amountToLiquify);
                     addLiq(amountToLiquify, amountPAIRLiquidity, devReceiver);
-                    if(debug) console.log("\tSOLIDITY liquidity added with %s tokens", amountToLiquify);
+                    if (debug) console.log("\tSOLIDITY liquidity added with %s tokens", amountToLiquify);
                 } else {
-                    if(debug) console.log("\tSOLIDITY Not adding liquidity with %s tokens, %s eth", amountToLiquify, amountPAIRLiquidity);
-                    if(debug) console.log("\tSOLIDITY Not adding liquidity with %s lp tax, %s totalPAIRFee", _taxes.lp, totalPAIRFee);
+                    if (debug)
+                        console.log(
+                            "\tSOLIDITY Not adding liquidity with %s tokens, %s eth",
+                            amountToLiquify,
+                            amountPAIRLiquidity
+                        );
+                    if (debug)
+                        console.log(
+                            "\tSOLIDITY Not adding liquidity with %s lp tax, %s totalPAIRFee",
+                            _taxes.lp,
+                            totalPAIRFee
+                        );
                 }
 
-                if(alternateSwaps) {
+                if (alternateSwaps) {
                     // solhint-disable-next-line reentrancy
                     swapThreshold = swapThreshold == smallSwapThreshold ? largeSwapThreshold : smallSwapThreshold;
                 }
@@ -314,7 +324,7 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
 
     function forceSwapback() public {
         require(msg.sender == devReceiver, "Only dev");
-        if(balanceOf(address(this)) > swapThreshold) {
+        if (balanceOf(address(this)) > swapThreshold) {
             performSwap();
         }
         performBuyBack();
@@ -343,7 +353,7 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
 
         if (autoBuyback > 0) {
             bool success = true;
-            if(debug) console.log("\tSOLIDITY step 3.1.1");
+            if (debug) console.log("\tSOLIDITY step 3.1.1");
             try
                 router.swapExactETHForTokensSupportingFeeOnTransferTokens{value: autoBuyback}(
                     0,
@@ -353,29 +363,29 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
                 )
             // solhint-disable-next-line no-empty-blocks
             {
-                if(debug) console.log("\tSOLIDITY step 3.1.1 OK");
+                if (debug) console.log("\tSOLIDITY step 3.1.1 OK");
             } catch {
                 success = false;
-                if(debug) console.log("\tSOLIDITY step 3.1.1 ERROR");
+                if (debug) console.log("\tSOLIDITY step 3.1.1 ERROR");
             }
 
             if (success) {
                 uint256 tokensBought = balanceOf(buybacksReceiver).sub(tokenBalance);
                 emit Buyback(autoBuyback, tokensBought);
                 if (tokensBought > 0) {
-                    if(debug) console.log("\tSOLIDITY step 3.1.2");
+                    if (debug) console.log("\tSOLIDITY step 3.1.2");
                     _transferWithChecks(
                         buybacksReceiver,
                         DEAD,
                         tokensBought.div(2) > maxTxSell ? maxTxSell : tokensBought.div(2)
                     );
-                    if(debug) console.log("\tSOLIDITY step 3.1.2 OK");
+                    if (debug) console.log("\tSOLIDITY step 3.1.2 OK");
                 }
                 if (address(this).balance > 0) {
                     // 100 - buybackPcAuto (%)
-                    if(debug) console.log("\tSOLIDITY step 3.1.3");
+                    if (debug) console.log("\tSOLIDITY step 3.1.3");
                     payable(buybacksReceiver).transfer(address(this).balance);
-                    if(debug) console.log("\tSOLIDITY step 3.1.3 OK");
+                    if (debug) console.log("\tSOLIDITY step 3.1.3 OK");
                 }
             }
         }
@@ -508,11 +518,11 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
         if (!ignoreLimits) {
             bool isSell = to == liqPair;
             if (isSell) {
-                if(debug) console.log("\tSOLIDITY step 1");
+                if (debug) console.log("\tSOLIDITY step 1");
                 require(canAdrSellCD(from), "Sell cooldown");
                 require(amount <= maxTxSell, "Sell amount limited to 0.1%");
                 registerAdrSell(from);
-                if(debug) console.log("\tSOLIDITY step 1 OK");
+                if (debug) console.log("\tSOLIDITY step 1 OK");
             } else {
                 require(maxWallet >= balanceOf(to).add(amount) || isTxLimitExempt[to], "Wallet amount limited to 2%");
             }
@@ -523,12 +533,12 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
         if (address(dexStats) != address(0)) {
             (uint256 mcapRc, bool isValid) = safeGetMarketcap();
             mcap = mcapRc;
-            if(debug) console.log("\tSOLIDITY step 2");
+            if (debug) console.log("\tSOLIDITY step 2");
             require(
                 buyOrSellTokenContract(from, to) || to != liqPair || !isValid || mcap > mcapLimit || projectCanceled,
                 "You can not sell until marketcap pass the limit"
             );
-            if(debug) console.log("\tSOLIDITY step 2 OK");
+            if (debug) console.log("\tSOLIDITY step 2 OK");
             if (mcap.mul(70).div(100) > mcapLimit) {
                 mcapLimit = mcap.mul(70).div(100);
             }
@@ -538,13 +548,13 @@ contract ThePromisedMoon is ERC20, Ownable2Step {
         }
         if (address(this).code.length > 0 && mcap > 0) {
             if (!inSwapOrBuyback && balanceOf(address(this)) > swapThreshold) {
-                if(debug) console.log("\tSOLIDITY step 3");
-                if(to == liqPair) { 
+                if (debug) console.log("\tSOLIDITY step 3");
+                if (to == liqPair) {
                     performSwap(); //only during sell
                 }
-                if(debug) console.log("\tSOLIDITY step 3.1");
+                if (debug) console.log("\tSOLIDITY step 3.1");
                 performBuyBack();
-                if(debug) console.log("\tSOLIDITY step 3 OK");
+                if (debug) console.log("\tSOLIDITY step 3 OK");
             }
             // Rewards
             if (!isDividendExempt[from]) {
