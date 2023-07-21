@@ -1,16 +1,25 @@
 import { ethers } from "hardhat";
-import _ from 'lodash';
+import _ from "lodash";
 
 async function main() {
   console.log(
-    `Deploying using parameters: \n\t${_.filter(Object.keys(process.env), (_o) => 
-      ["NAME", "SYMBOL", "PAIR", "STABLE", "ROUTER"].includes(_o)).map(_o => `${_o}:${process.env[_o]}\n\t`)}`
+    `Deploying using parameters: \n\t${_.filter(
+      Object.keys(process.env),
+      (_o) => ["NAME", "SYMBOL", "PAIR", "STABLE", "ROUTER"].includes(_o),
+    ).map((_o) => `${_o}:${process.env[_o]}\n\t`)}`,
   );
 
-  const thePromisedMoon = await ethers.deployContract("ThePromisedMoon", [process.env.NAME, process.env.SYMBOL, process.env.PAIR, process.env.STABLE, process.env.ROUTER, process.env.DEBUG_SOLIDITY == '1'])
+  const thePromisedMoon = await ethers.deployContract("ThePromisedMoon", [
+    process.env.NAME,
+    process.env.SYMBOL,
+    process.env.PAIR,
+    process.env.STABLE,
+    process.env.ROUTER,
+    process.env.DEBUG_SOLIDITY == "1",
+  ]);
   await thePromisedMoon.waitForDeployment();
   console.log(
-    `ThePromisedMoon successfully deployed: ${thePromisedMoon.target}`
+    `ThePromisedMoon successfully deployed: ${thePromisedMoon.target}`,
   );
 }
 

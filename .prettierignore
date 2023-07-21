@@ -1,0 +1,13 @@
+*.yaml
+*.md
+*.json
+# BELOW COPY PASTED FROM GITIGNORE
+node_modules
+.pk
+artifacts
+cache
+coverage
+typechain-types
+gasReporterOutput.json
+coverage.json
+.env

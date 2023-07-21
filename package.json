@@ -1,4 +1,7 @@
 {
+  "name": "hardhat-test-template",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "help": "pnpm hardhat help",
     "clean": "pnpm hardhat clean",
@@ -18,8 +21,12 @@
     "testNP": "pnpm hardhat test --parallel --network localhost",
     "typechain": "pnpm hardhat typechain",
     "verify": "pnpm hardhat verify",
-    "linter": "pnpm hardhat check",
-    "prettier:fix": "npx prettier --write --plugin=prettier-plugin-solidity contracts/**/*.sol"
+    "lint": "npx eslint .",
+    "lintSOL": "pnpm hardhat check",
+    "prettierSOL": "npx prettier --check --plugin=prettier-plugin-solidity contracts/**/*.sol",
+    "prettierSOL:fix": "npx prettier --write --plugin=prettier-plugin-solidity contracts/**/*.sol",
+    "prettier": "npx prettier --check --ignore-path .prettierignore .",
+    "prettier:fix": "npx prettier --write --ignore-path .prettierignore ."
   },
   "dependencies": {
     "hardhat": "^2.17.0"
@@ -38,6 +45,7 @@
     "@types/lodash": "^4.14.195",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.2",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
     "bn.js": "^5.2.1",
     "chai": "^4.3.7",
     "dotenv": "^16.3.1",

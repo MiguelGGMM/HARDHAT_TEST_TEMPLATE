@@ -10,25 +10,31 @@ import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
 
 // Private key for deployments...
-import fs from 'fs'; 
+import fs from "fs";
 //import { ethers } from "ethers";
 
-let privateKey = ''
-try { privateKey = fs.readFileSync(".pk").toString().trim() }catch(ex: any){ console.log(ex.toString()) }
+let privateKey = "";
+try {
+  privateKey = fs.readFileSync(".pk").toString().trim();
+} catch (ex: unknown) {
+  if (ex) {
+    console.log(ex.toString());
+  }
+}
 
 const config: HardhatUserConfig = {
-  solidity: { 
+  solidity: {
     compilers: [
-      {        
-        version: "0.8.12",          
+      {
+        version: "0.8.12",
         settings: {
           //evmVersion: "byzantium",
           evmVersion: "istanbul",
           optimizer: {
             enabled: true,
-            runs: 999,            
-          }
-        }
+            runs: 999,
+          },
+        },
       },
       {
         //Need for pancakeswapV2...
@@ -38,56 +44,54 @@ const config: HardhatUserConfig = {
           evmVersion: "istanbul",
           optimizer: {
             enabled: true,
-            runs: 999
-          }
-        }
-      }
-    ]
-  },  
-  mocha: {
-    
-  },
-  defaultNetwork: "hardhat",
-  networks: {    
-    hardhat: {      
-      forking: {
-        url: 'https://bsc-dataseed1.binance.org/',
-        enabled: true
+            runs: 999,
+          },
+        },
       },
-      hardfork: 'istanbul',
+    ],
+  },
+  mocha: {},
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      forking: {
+        url: "https://bsc-dataseed1.binance.org/",
+        enabled: true,
+      },
+      hardfork: "istanbul",
       allowUnlimitedContractSize: true, //Needed for coverage...
       gasPrice: 5000000000,
       gas: 20000000,
       gasMultiplier: 1.2,
       throwOnCallFailures: true,
-      blockGasLimit: 30000000
+      blockGasLimit: 30000000,
     },
     bscMainnet: {
-      url: 'https://bsc-dataseed1.binance.org/',
+      url: "https://bsc-dataseed1.binance.org/",
       accounts: privateKey ? [`0x${privateKey}`] : [],
-      gasPrice: 5000000000
-    }
+      gasPrice: 5000000000,
+    },
   },
   gasReporter: {
     enabled: true,
 
-    token: 'BNB',
-    gasPriceApi: 'https://api.bscscan.com/api?module=proxy&action=eth_gasPrice',
+    token: "BNB",
+    gasPriceApi: "https://api.bscscan.com/api?module=proxy&action=eth_gasPrice",
 
     // token: 'ETH',
     // gasPriceApi: 'https://api.etherscan.io/api?module=proxy&action=eth_gasPrice',
 
     // if we want the report in a file
-    outputFile: 'gasReporterOutput.json',
+    outputFile: "gasReporterOutput.json",
     noColors: true, //needed if we print report in file
 
     //rst: true,
     //onlyCalledMethods: true,
     showMethodSig: true,
-    currency: 'USD',//'EUR',
+    currency: "USD", //'EUR',
     coinmarketcap: process.env.CMC_KEY,
-    gasPrice: 5
-  }
+    gasPrice: 5,
+  },
 };
 
 export default config;
