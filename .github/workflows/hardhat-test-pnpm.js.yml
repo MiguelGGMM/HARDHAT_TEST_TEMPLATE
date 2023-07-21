@@ -1,15 +1,15 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Solidity testing CI
+name: Solidity testing CI using hardhat
 
 on:
   # push:
   #   branches: [ dev ]
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   hardhat-test:
@@ -23,36 +23,36 @@ jobs:
       matrix:
         node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-  
+
     steps:
-      - name: Cancel previous redundant builds
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
+      #   - name: Cancel previous redundant builds
+      #     uses: styfle/cancel-workflow-action@0.9.1
+      #     with:
+      #       access_token: ${{ github.token }}
 
       - name: Checkout repository code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 #only brings last commit
 
-      - name: Use Node.js ${{ matrix.node-version }}      
-        uses: actions/setup-node@v3      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - uses: pnpm/action-setup@v2
         name: Install pnpm
         id: pnpm-install
         with:
           version: 8
           run_install: false
-        
+
       - name: Get pnpm store directory
         id: pnpm-cache
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-     
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -64,23 +64,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Compile contracts      
-        run: pnpm run compile 
+      - name: Compile contracts
+        run: pnpm run compile
 
-      - name: Run linter checks        
-        run: pnpm run linter
+      - name: Run linter checks
+        run: pnpm run lint
 
-      - name: Run solidity linter checks        
-        run: pnpm run linterSOL
+      - name: Run solidity linter checks
+        run: pnpm run lintSOL
 
-      - name: Run prettier checks        
+      - name: Run prettier checks
         run: pnpm run prettier
 
-      - name: Run solidity prettier checks        
+      - name: Run solidity prettier checks
         run: pnpm run prettierSOL
 
       - name: Run hardhat tests (includes gas reported)
         run: pnpm run test
-        
+
       - name: Run hardhat coverage
         run: pnpm run coverage
