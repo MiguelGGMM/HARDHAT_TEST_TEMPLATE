@@ -25,10 +25,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
   
     steps:
-      - name: Cancel previous redundant builds
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
+    #   - name: Cancel previous redundant builds
+    #     uses: styfle/cancel-workflow-action@0.9.1
+    #     with:
+    #       access_token: ${{ github.token }}
 
       - name: Checkout repository code
         uses: actions/checkout@v3
