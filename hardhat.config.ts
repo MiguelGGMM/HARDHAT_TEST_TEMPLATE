@@ -21,6 +21,14 @@ try {
     console.log(ex.toString());
   }
 }
+let CMC_KEY = "";
+try {
+  CMC_KEY = fs.readFileSync(".cmc").toString().trim();
+} catch (ex: unknown) {
+  if (ex) {
+    console.log(ex.toString());
+  }
+}
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -89,7 +97,7 @@ const config: HardhatUserConfig = {
     //onlyCalledMethods: true,
     showMethodSig: true,
     currency: "USD", //'EUR',
-    coinmarketcap: process.env.CMC_KEY,
+    coinmarketcap: CMC_KEY,
     gasPrice: 5,
   },
 };
