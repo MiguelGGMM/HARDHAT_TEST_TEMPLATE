@@ -2,6 +2,8 @@
 
 [![Solidity testing CI using hardhat]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml/badge.svg)]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml)
 
+[![Coverage Status](https://coveralls.io/repos/github/MiguelGGMM/HARDHAT_TEST_TEMPLATE/badge.svg?branch=main)](https://coveralls.io/github/MiguelGGMM/HARDHAT_TEST_TEMPLATE?branch=main)
+
  Project template for testing smart contracts using hardhat, includes linter, prettier and CI using github actions \
  The example contract imports openzeppelin standard contracts \
  During tests chainlink datafeeds are used for validations 
