@@ -62,11 +62,11 @@ const config: HardhatUserConfig = {
   mocha: {},
   etherscan: {
     //https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify
-    apiKey : {
-      bsc: "your binance smart chain API KEY"
+    apiKey: {
+      bsc: "your binance smart chain API KEY",
       //npx hardhat verify --list-networks //available networks
       //https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#adding-support-for-other-networks // if you need other networks
-    }
+    },
   },
   defaultNetwork: "hardhat",
   networks: {
