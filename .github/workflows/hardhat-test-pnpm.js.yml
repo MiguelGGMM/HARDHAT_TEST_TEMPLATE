@@ -84,14 +84,13 @@ jobs:
 
       - name: Run hardhat coverage
         run: pnpm run coverage
-    
+
       # codechecks, gas report diff
       - name: Codechecks gas report
         run: |
-            yarn install --frozen-lockfile
+          yarn install --frozen-lockfile
 
-            npx codechecks
+          npx codechecks
         env:
-            CC_SECRET: ${{ secrets.CC_SECRET }}
+          CC_SECRET: ${{ secrets.CC_SECRET }}
       # codechecks
-
