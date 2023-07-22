@@ -1,13 +1,15 @@
 # HARDHAT_TEST_TEMPLATE
 
-[![Solidity testing CI using hardhat]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml/badge.svg)]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml)
-
+[![Solidity testing CI using hardhat]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml/badge.svg)]( https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/actions/workflows/hardhat-test-pnpm.js.yml) 
 [![Coverage Status](https://coveralls.io/repos/github/MiguelGGMM/HARDHAT_TEST_TEMPLATE/badge.svg?branch=master)](https://coveralls.io/github/MiguelGGMM/HARDHAT_TEST_TEMPLATE?branch=master)
 
- Template project for testing smart contracts using hardhat, includes linter, prettier and CI using github actions \
- The example contract imports openzeppelin standard contracts \
- During tests chainlink datafeeds are used for validations against contracts calculations that use DEX liquidity pools \
- Codechecks and Coveralls are also integrated with github actions in order to check and control solidity code coverage and gas costs
+ Template project for testing smart contracts using [hardhat](https://github.com/NomicFoundation/hardhat), includes linter, prettier and CI using github actions 
+ 
+ The example contract imports [openzeppelin standard contracts](https://github.com/OpenZeppelin/openzeppelin-contracts)
+ 
+ During tests [chainlink datafeeds](https://data.chain.link/) are used for validations against contracts calculations that use DEX liquidity pools 
+ 
+ [Codechecks](https://app.codechecks.io/) and [Coveralls]( https://coveralls.io) are also integrated with github actions in order to check and control solidity code coverage and gas costs
 
  ## INSTRUCTIONS
 
@@ -30,7 +32,8 @@ Everything is explained here: https://hardhat.org/hardhat-runner/plugins/nomicfo
 
 ## GAS REPORTER
 
-We are using the gas reporter included in hardhat and codechecks integration for github actions, for this you have to add your repo here https://app.codechecks.io/, copy the code and add it as a secret for your repository named CC_SECRET, check the codecheks.yml and the .yml for github actions depending on your branch name changes could be needed. https://github.com/codechecks/docs/blob/master/getting-started.md
+We are using the gas reporter included in hardhat and codechecks integration for github actions, for this you have to add your repo here https://app.codechecks.io/, copy the code and add it as a secret for your repository named CC_SECRET, check the codecheks.yml and the .yml for github actions depending on your branch name changes could be needed. \
+https://github.com/codechecks/docs/blob/master/getting-started.md \
 Diff parameters can be configured in hardhat.config.ts so will end in a failure if the gas spent rises too much.
 
 ![image](https://github.com/MiguelGGMM/HARDHAT_TEST_TEMPLATE/assets/104460442/fe8b23a4-4c15-40f7-839d-5ab42e09ccc3)
