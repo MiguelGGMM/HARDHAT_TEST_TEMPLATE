@@ -92,3 +92,9 @@ jobs:
         env:
           CC_SECRET: ${{ secrets.CC_SECRET }}
       # codechecks
+
+      # coveralls, code coverage
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2
+      # coveralls
+
