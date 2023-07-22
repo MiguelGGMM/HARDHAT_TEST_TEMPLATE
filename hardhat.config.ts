@@ -1,10 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
-//import "hardhat-gas-reporter";
+import "@nomicfoundation/hardhat-toolbox"; //includes gas reporter etc
 import "@nomiclabs/hardhat-solhint";
-//import "solidity-coverage";
+import "@nomicfoundation/hardhat-verify"; //https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify
 import "ganache";
-//import "@nomiclabs/hardhat-waffle"; //doesnt work fine with @nomicfoundation/hardhat-chai-matchers
 
 import { config as dotEnvConfig } from "dotenv";
 dotEnvConfig();
@@ -62,6 +60,14 @@ const config: HardhatUserConfig = {
     ],
   },
   mocha: {},
+  etherscan: {
+    //https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify
+    apiKey : {
+      bsc: "your binance smart chain API KEY"
+      //npx hardhat verify --list-networks //available networks
+      //https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#adding-support-for-other-networks // if you need other networks
+    }
+  },
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {
