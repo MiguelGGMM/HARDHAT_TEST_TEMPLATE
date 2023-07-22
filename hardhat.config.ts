@@ -104,7 +104,7 @@ const config: HardhatUserConfig = {
     gasPrice: 5,
     showTimeSpent: true,
     maxMethodDiff: 10, //10% max gas diff usage
-    maxDeploymentDiff: 10 //10% max gas diff deployments
+    maxDeploymentDiff: 10, //10% max gas diff deployments
     // unnecessary
     // ,remoteContracts: [
     //   {
