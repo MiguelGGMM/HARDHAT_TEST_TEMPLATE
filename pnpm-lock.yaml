@@ -72,9 +72,6 @@ importers:
       ganache:
         specifier: ^7.9.0
         version: 7.9.0
-      ganache-cli:
-        specifier: ^6.12.2
-        version: 6.12.2
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2884,16 +2881,6 @@ packages:
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
-
-  /ganache-cli@6.12.2:
-    resolution: {integrity: sha512-bnmwnJDBDsOWBUP8E/BExWf85TsdDEFelQSzihSJm9VChVO1SHp94YXLP5BlA4j/OTxp0wR4R1Tje9OHOuAJVw==}
-    deprecated: ganache-cli is now ganache; visit https://trfl.io/g7 for details
-    hasBin: true
-    dev: true
-    bundledDependencies:
-      - source-map-support
-      - yargs
-      - ethereumjs-util
 
   /ganache@7.9.0:
     resolution: {integrity: sha512-KdsTZaAKqDXTNDMKnLzg0ngX8wnZKyVGm7HD03GIyUMVRuXI83s0CUEaGIDWRUWTQP7BE8sDh7QtbW+NoX4zrQ==}
