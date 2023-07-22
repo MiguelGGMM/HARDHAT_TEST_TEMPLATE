@@ -3,7 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 //import "hardhat-gas-reporter";
 import "@nomiclabs/hardhat-solhint";
 //import "solidity-coverage";
-import "ganache-cli";
+import "ganache";
 //import "@nomiclabs/hardhat-waffle"; //doesnt work fine with @nomicfoundation/hardhat-chai-matchers
 
 import { config as dotEnvConfig } from "dotenv";
@@ -29,6 +29,9 @@ try {
     console.log(ex.toString());
   }
 }
+
+//unnecessary
+//const remoteContract = JSON.parse(fs.readFileSync("./artifacts/contracts/token/testAux/PancakeRouter.sol/PancakeRouter.json").toString().trim())
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -99,6 +102,18 @@ const config: HardhatUserConfig = {
     currency: "USD", //'EUR',
     coinmarketcap: CMC_KEY,
     gasPrice: 5,
+    showTimeSpent: true,
+    maxMethodDiff: 10, //10% max gas diff usage
+    maxDeploymentDiff: 10, //10% max gas diff deployments
+    // unnecessary
+    // ,remoteContracts: [
+    //   {
+    //     abi: remoteContract.abi,
+    //     address: process.env.ROUTER??"",
+    //     name: remoteContract.name,
+    //     bytecode: remoteContract.bytecode
+    //   }
+    // ]
   },
 };
 
