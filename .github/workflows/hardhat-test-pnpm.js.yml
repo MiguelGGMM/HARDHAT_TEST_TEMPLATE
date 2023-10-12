@@ -12,33 +12,16 @@ on:
     branches: [master]
 
 jobs:
-  hardhat-test:
-    name: hardhat-test
-    # defaults:
-    #   run:
-    #     working-directory: SOLIDITY
+  Lint-Prettify:
+    name: Linter & Prettier
     runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
       #   - name: Cancel previous redundant builds
       #     uses: styfle/cancel-workflow-action@0.9.1
       #     with:
       #       access_token: ${{ github.token }}
 
-      - name: Checkout repository code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 #only brings last commit
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      ############### PNPM ###############
 
       - uses: pnpm/action-setup@v2
         name: Install pnpm
@@ -61,29 +44,188 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run linter checks
+        run: pnpm run lint
+
+      - name: Run prettier checks
+        run: pnpm run prettier
+
+  Lint-PrettifySOL:
+    name: Linter & Prettier (SOLIDITY)
+    runs-on: ubuntu-22.04
+    steps:
+      #   - name: Cancel previous redundant builds
+      #     uses: styfle/cancel-workflow-action@0.9.1
+      #     with:
+      #       access_token: ${{ github.token }}
+
+      ############### PNPM ###############
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run solidity linter checks
+        run: pnpm run lintSOL
+
+      - name: Run solidity prettier checks
+        run: pnpm run prettierSOL
+
+  Compile:
+    needs: [Lint-Prettify, Lint-PrettifySOL]
+    runs-on: ubuntu-22.04
+    steps:
+      ############### PNPM ###############
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
       - name: Install dependencies
         run: pnpm install
 
       - name: Compile contracts
         run: pnpm run compile
 
-      - name: Run linter checks
-        run: pnpm run lint
+  Test:
+    name: Solidity tests
+    needs: [Lint-Prettify, Lint-PrettifySOL]
+    runs-on: ubuntu-22.04
+    steps:
+      ############### PNPM ###############
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
 
-      - name: Run solidity linter checks
-        run: pnpm run lintSOL
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: Run prettier checks
-        run: pnpm run prettier
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-      - name: Run solidity prettier checks
-        run: pnpm run prettierSOL
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Run hardhat tests (includes gas reported)
         run: pnpm run test
 
-      - name: Run hardhat coverage
-        run: pnpm run coverage
+  Codechecks:
+    name: Codechecks (checks over gas report)
+    needs: [Test]
+    runs-on: ubuntu-22.04
+    steps:
+      ############### PNPM ###############
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run hardhat tests (includes gas reported)
+        run: pnpm run test
 
       # codechecks, gas report diff
       - name: Codechecks gas report
@@ -92,6 +234,46 @@ jobs:
         env:
           CC_SECRET: ${{ secrets.CC_SECRET }}
       # codechecks
+
+  Coverage:
+    name: Coverage (coveralls)
+    needs: [Test]
+    runs-on: ubuntu-22.04
+    steps:
+      ############### PNPM ###############
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      ############### PNPM ###############
+
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 #only brings last commit
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run hardhat coverage
+        run: pnpm run coverage
 
       # coveralls, code coverage
       - name: Coveralls GitHub Action
