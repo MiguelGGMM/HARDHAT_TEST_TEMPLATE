@@ -31,7 +31,7 @@ let accounts: HardhatEthersSigner[];
 let _owner: HardhatEthersSigner;
 
 //Unique way make eth-gas-reporter work fine
-const dexContractName = "IDEXRouter";//"PancakeRouter";
+const dexContractName = "IDEXRouter"; //"PancakeRouter";
 
 const debug = process.env.DEBUG_TEST == "1";
 
