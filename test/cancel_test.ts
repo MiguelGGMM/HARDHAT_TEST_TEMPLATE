@@ -4,9 +4,9 @@ import {
   DEXStats__factory,
   IERC20Metadata,
   IPairDatafeed,
-  PancakeRouter,
+  // PancakeRouter,
   ThePromisedMoon,
-  /* IDEXRouter, */
+  IDEXRouter,
   ThePromisedMoon__factory,
 } from "../typechain-types";
 import { Addressable, BigNumberish, TransactionReceipt } from "ethers";
@@ -24,14 +24,14 @@ let _ThePromisedMoon: ThePromisedMoon;
 let _IERC20MetadataPair: IERC20Metadata;
 let _IERC20MetadataRewards: IERC20Metadata;
 let _DEXSTATS: DEXStats;
-let _IDEXRouter: PancakeRouter; //| IDEXRouter;
+let _IDEXRouter: IDEXRouter /* | PancakeRouter */;
 let _IPAIRDATAFEED: IPairDatafeed;
 let pairAdr: string;
 let accounts: HardhatEthersSigner[];
 let _owner: HardhatEthersSigner;
 
 //Unique way make eth-gas-reporter work fine
-const dexContractName = "PancakeRouter";
+const dexContractName = "IDEXRouter"; //"PancakeRouter";
 
 const debug = process.env.DEBUG_TEST == "1";
 

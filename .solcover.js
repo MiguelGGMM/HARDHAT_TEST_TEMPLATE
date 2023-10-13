@@ -6,10 +6,11 @@ module.exports = {
   },
   //skipFiles: ['token/testAux/PancakeRouter.sol']
   skipFiles: [
-    "Libraries/IDEXRouter.sol",
+    //"Libraries/IDEXRouter.sol",
     "Libraries/IDividendDistributor.sol",
     "Libraries/IFactory.sol",
     "Libraries/ILiqPair.sol",
     "token/testAux/IPairDatafeed.sol",
+    //"token/testAux/PancakeRouter.sol"
   ],
 };
