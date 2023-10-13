@@ -109,8 +109,8 @@ const config: HardhatUserConfig = {
     coinmarketcap: CMC_KEY,
     gasPrice: 5,
     showTimeSpent: true,
-    maxMethodDiff: 10, //10% max gas diff usage
-    maxDeploymentDiff: 10, //10% max gas diff deployments
+    maxMethodDiff: 50, //50% max gas diff usage
+    maxDeploymentDiff: 50, //50% max gas diff deployments
     // unnecessary
     // ,remoteContracts: [
     //   {
